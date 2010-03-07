@@ -1,0 +1,38 @@
+List of classes/objects for the mescaline_svc idea.
+SVG holds reference to GraphWindow
+GraphWindow holds refs to graphs
+Graphs hold refs to GW, TimeBasedDataSet 
+
+First:
+  TimeBasedDataSet: A (sort of) set of Key/Values where Key is time.
+    This will do all the math on data.  Normalization, calcing min/max for a
+    domain 
+  Mescaline( logical, not DOM or inheritance) parent of graphGroups.  Dispatches Events (resizeEvent). History of actions, save, auto-add-data settings, themes.
+  GraphGroup (holds labels, graphs)  Usually per Unit
+    options: force_min, force_max
+    Converts "screen locations" to coords useful to Graph/DataSet 
+  Graph: A "layer" of data.
+    num of lines
+    actual line data
+    XAxisLabels[]
+    YAxisLabels[]
+    Key
+    Title (for key)
+    options
+  X/YLabel:
+    min,max,offset  
+
+
+On Graph Add:
+  pass data and option set to graph_widow.
+    graph window creates new Graph object.  Pass Data to parse.  Possibly 
+    trigger a "vertical resize" event.
+    check to see if we need to create/update YAxisLabel,XAxisLabel 
+    Add this graph's info to the Key
+
+Graph Del:
+    check to see if we need to delete YAxisLabel,XAxisLabel,Key 
+    del this graph's info from the Key
+    Check and fire vertical resize event.
+
+  
