@@ -1,4 +1,6 @@
 <svg id='tle' width="500px" height="600px" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"   version="1.1">
     <desc>Fake desc</desc>
     <title>Fake title</title>
+    <rect x='0' y='10' width='440' height = '25' style="stroke: blue; fille: blue; fill-opacity: 0.2;" />
+
 </svg>
