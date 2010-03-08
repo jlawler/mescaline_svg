@@ -3,8 +3,8 @@ mescaline=function(){
     graph_group: [{}]
   };
   return {
-    graph_group: function(){return mescaline_struct['graph_group']}
+    graph_group: function(){return mescaline_struct['graph_group'][0]}
   };
 
 }();
-alert(mescaline.graph_group());
+alert(mescaline.graph_group())[0];
