@@ -20,7 +20,7 @@ node.setAttribute('style','stroke: black;fill: red; fill-opacity: 0.3; stroke-wi
 node.setAttribute('points',coerce_data(data));
 node.setAttribute('x',0);
 node.setAttribute('y',0);
-pnode.appendChildNode(node)     ;
+pnode.appendChild((node)     ;
     }
   };
   var mescaline_struct={
