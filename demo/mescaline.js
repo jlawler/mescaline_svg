@@ -5,7 +5,7 @@ var graph = function(){
 }; 
 mescaline=function(rn){
 
-  function coerce_data(din){
+  function coerce_data(din, to_array){
     var ret = false;
 var pair=null;
     for(i=0; i< din.length; i++){
