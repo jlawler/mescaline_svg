@@ -12,5 +12,5 @@ mescaline=function(rn){
     graph_group: function(){return mescaline_struct['graph_group'][0]}
   };
 
-}();
+};
 alert(typeof(mescaline.graph_group()));
