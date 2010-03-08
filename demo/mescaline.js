@@ -4,6 +4,13 @@ var graph = function(){
 
 }; 
 mescaline=function(rn){
+  function coerce_data(din){
+    var ret = false;
+    for(pair in din){
+      if(ret){ret = ret + ','}else{ret=''}
+      ret = ret + (pair[0] + ',' + 
+    }
+  };
   var first_gg = {
     add_graph: function(data,opts){
 
