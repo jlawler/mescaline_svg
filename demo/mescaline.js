@@ -7,6 +7,7 @@ mescaline=function(rn){
   function coerce_data(din){
     var ret = false;
     for(pair in din){
+alert(pair);
       if(ret){ret = ret + ','}else{ret=''}
       ret = ret + (pair[0] + ',' + pair[1])
     }
