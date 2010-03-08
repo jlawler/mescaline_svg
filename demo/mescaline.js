@@ -15,9 +15,11 @@ var pair=null;
     for(i=0; i< din.length; i++){
 pair=din[i];
 //alert(pair);
-      if(ret && !to_array){ret = ret + ' '}
+if(!to_array){
+      if(ret){ret = ret + ' '}else{ret=''}
       ret = ret + ((60 * pair[0]) + ',' + (((-1.0 * pair[1]*50)+ 600)));
     }
+}
     return ret;
   };
   var first_gg = {
