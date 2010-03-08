@@ -41,7 +41,7 @@ node.setAttribute('style','stroke: black;  stroke-width: 5.2;');
 if(j==0){alert(labels[j][0]+ ', ' + labels[j][1])};
 node.setAttribute('cx',labels[j][0]);
 node.setAttribute('cy',labels[j][1]);
-node.setAttribute('r',10);
+node.setAttribute('r',5);
 pnode.appendChild(node);
 }
 var pnode = document.getElementById('tlg');
