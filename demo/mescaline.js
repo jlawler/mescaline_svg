@@ -24,7 +24,7 @@ pnode.appendChildNode(node)     ;
     }
   };
   var mescaline_struct={
-    graph_group: new Array({}),
+    graph_group: new Array(first_gg),
     root_node: rn
   };
   return {
