@@ -12,6 +12,7 @@ mescaline=function(rn){
     var ret = '';
     }
 var pair=null;
+var x,y;
     for(i=0; i< din.length; i++){
 pair=din[i];
 //alert(pair);
@@ -19,6 +20,9 @@ if(!to_array){
       if(ret){ret = ret + ' '}else{ret=''}
 
 }
+x= 
+      x = (60 * pair[0]);
+      y = ((-1.0 * pair[1]*50)+ 600);
       ret = ret + ((60 * pair[0]) + ',' + (((-1.0 * pair[1]*50)+ 600)));
     }
     return ret;
