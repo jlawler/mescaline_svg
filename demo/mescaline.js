@@ -25,7 +25,7 @@ if(!to_array){
       if(!to_array){
         ret = ret + x + ',' + y;
       }else{
-        ret.append([x,y]);
+        ret.push([x,y]);
       }
     }
     return ret;
