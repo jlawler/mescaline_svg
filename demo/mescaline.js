@@ -68,4 +68,5 @@ pnode.setAttri
 ary[3] = parseInteger(ary[3]) + 50;
 
 pnode.setAttribute('viewBox', ary.join(' '));
- 
+};
+ter(1); 
