@@ -5,6 +5,7 @@
     <rect x='5%' y='2.5%' width='90%' height = '70%' style="stroke: blue; fill: blue; fill-opacity: 0.2;" />
 <svg id='tlg' viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  width='90%' height = '70%'  style="overflow: hidden;" x = '5%' y = '2.5%' version="1.1">
  <circle cx="000" cy="000" r="100" fill="red" stroke="blue" stroke-width="10"  />
+ <circle cx="000" cy="-600" r="100" fill="red" stroke="blue" stroke-width="10"  />
 </svg>
 
 
