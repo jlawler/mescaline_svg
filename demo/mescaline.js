@@ -7,4 +7,4 @@ mescaline=function(){
   };
 
 }();
-alert(mescaline.graph_group())[0];
+alert(mescaline.graph_group());
