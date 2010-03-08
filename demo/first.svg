@@ -4,7 +4,7 @@
     <rect x='0' y='0' width='100%' height = '100%' style="stroke: blue; fill: green; fill-opacity: 0.2;" />
     <rect x='5%' y='2.5%' width='90%' height = '70%' style="stroke: blue; fill: blue; fill-opacity: 0.2;" />
     <script type="text/ecmascript" xlink:href="mescaline.js"/>
-    <script type="text/ecmascript"/>
+    <script type="text/ecmascript">
       alert(mescaline().graph_group());
     </script> 
 </svg>
