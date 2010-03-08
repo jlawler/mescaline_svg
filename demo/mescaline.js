@@ -60,12 +60,13 @@ pnode.appendChild(node)     ;
     root_node: rn
   };
   return {
-    graph_group: function(){return mescaline_struct['graph_group'][0]}
+    graph_group: function(){return mescaline_struct['graph_group'][0]},
+    ter: function(i){
+var pnode = document.getElementById('jwline');
+pnode.setAttribute('points',coerce_data(data,false,(1 + (i/10))));
+setTimeout('tg.ter('+ (i-1) + ');',1000);
+}
   };
 
 };
-var ter = function(i){
-var pnode = document.getElementById('jwline');
-pnode.setAttribute('points',coerce_data(data,false,(1 + (i/10))));
-setTimeout('ter('+ (i-1) + ');',1000);
-};
+var ter = ;
