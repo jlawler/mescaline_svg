@@ -3,7 +3,7 @@ mescaline=function(){
     graph_group: new Array({})
   };
   return {
-    graph_group: function(){return mescaline_struct['graph_group'][0]}
+    graph_group: function(){return mescaline_struct['graph_group']}
   };
 
 }();
