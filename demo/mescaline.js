@@ -9,7 +9,7 @@ mescaline=function(rn){
 var pair=null;
     for(i=0; i< din.length; i++){
 pair=din[i];
-alert(pair);
+//alert(pair);
       if(ret){ret = ret + ','}else{ret=''}
       ret = ret + (pair[0] + ',' + pair[1])
     }
