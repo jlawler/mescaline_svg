@@ -13,7 +13,7 @@ mescaline=function(rn){
     }
 var pair=null;
 var x,y;
-    for(i=0; i< din.length; i++){
+    for(i=0; i < din.length; i++){
 pair=din[i];
 //alert(pair);
 if(!to_array){
