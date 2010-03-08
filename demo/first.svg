@@ -25,7 +25,8 @@ var data=[
 [16, 4],
 [17, 3],
 [18, 2],
-[19, 1]
+[19, 1],
+[20, 1]
 ];
 tg = mescaline();
 tg.graph_group().add_graph(data);
