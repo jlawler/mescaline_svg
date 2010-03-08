@@ -8,8 +8,9 @@ mescaline=function(rn){
     var ret = false;
     for(pair in din){
       if(ret){ret = ret + ','}else{ret=''}
-      ret = ret + (pair[0] + ',' + 
+      ret = ret + (pair[0] + ',' + pair[1])
     }
+    return ret;
   };
   var first_gg = {
     add_graph: function(data,opts){
