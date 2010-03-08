@@ -18,7 +18,7 @@ pair=din[i];
   var first_gg = {
     add_graph: function(data,opts){
 var pnode = document.getElementById('tle');
-var node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
+var node=document.createElementNS('http://www.w3.org/2000/svg','line');
 node.setAttribute('style','stroke: black;fill: red; fill-opacity: 0.3; stroke-width: 0.2;');
 //alert(coerce_data(data));
 node.setAttribute('points',coerce_data(data));
