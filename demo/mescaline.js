@@ -69,4 +69,3 @@ ary[3] = parseInt(ary[3]) + 50;
 
 pnode.setAttribute('viewBox', ary.join(' '));
 };
-ter(1); 
