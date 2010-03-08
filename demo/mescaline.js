@@ -65,7 +65,7 @@ var ter = function(i){
 var pnode = document.getElementById('tlg');
 pnode.setAttri
        var ary=pnode.getAttribute('viewBox').split(" ");
-ary[3] = parseInteger(ary[3]) + 50;
+ary[3] = parseInt(ary[3]) + 50;
 
 pnode.setAttribute('viewBox', ary.join(' '));
 };
