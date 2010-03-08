@@ -63,7 +63,7 @@ pnode.appendChild(node)     ;
     graph_group: function(){return mescaline_struct['graph_group'][0]},
     ter: function(i){
 var pnode = document.getElementById('jwline');
-pnode.setAttribute('points',coerce_data(data,false,(1 + (i/10))));
+pnode.setAttribute('points',coerce_data(data,false,(1 - (i/10))));
 if(i<=0){return}
 setTimeout('tg.ter('+ (i-1) + ');',500);
 }
