@@ -17,6 +17,7 @@ mescaline=function(rn){
 var pnode = document.getElementById('tle');
 var node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
 node.setAttribute('style','stroke: black;fill: red; fill-opacity: 0.3; stroke-width: 0.2;');
+alert(coerce_data(data));
 node.setAttribute('points',coerce_data(data));
 node.setAttribute('x',0);
 node.setAttribute('y',0);
