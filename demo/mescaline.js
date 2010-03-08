@@ -62,7 +62,7 @@ pnode.appendChild(node)     ;
   return {
     graph_group: function(){return mescaline_struct['graph_group'][0]},
     ter: function(i){
-var u = (20-i)10-i;
+var u = (20-i)/20;
 var pnode = document.getElementById('jwline');
 pnode.setAttribute('points',coerce_data(data,false,(1 - (u/10))));
 if(i<=4){return}
