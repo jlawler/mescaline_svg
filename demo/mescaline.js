@@ -69,4 +69,3 @@ setTimeout('tg.ter('+ (i-1) + ');',1000);
   };
 
 };
-var ter = ;
