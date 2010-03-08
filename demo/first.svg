@@ -38,7 +38,7 @@ var data=[
 ];
 tg = mescaline();
 tg.graph_group().add_graph(data);
-ter(1);
+ter(10);
 //      alert(mescaline().graph_group());
     </script> 
 </svg>
