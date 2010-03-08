@@ -1,10 +1,5 @@
 
 var graph = function(){
-  node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
-  node.setAttribute('style','stroke: black;fill: red; fill-opacity: 0.3; stroke-width: 0.2;');
-  node.setAttribute('points',data1);
-  node.setAttribute('x',0);
-  node.setAttribute('y',0);
 
 
 }; 
@@ -12,6 +7,12 @@ mescaline=function(rn){
   var first_gg = {
     add_graph: function(data,opts){
 
+node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
+node.setAttribute('style','stroke: black;fill: red; fill-opacity: 0.3; stroke-width: 0.2;');
+node.setAttribute('points',coerce_data(data));
+node.setAttribute('x',0);
+node.setAttribute('y',0);
+     
     };
   };
   var mescaline_struct={
