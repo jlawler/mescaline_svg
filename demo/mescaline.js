@@ -5,7 +5,9 @@ var graph = function(){
 }; 
 mescaline=function(rn){
 
-  function coerce_data(din, to_array){
+  function coerce_data(din, to_array,scale_by){
+    if(!scale_by){scale_by = 1.0};
+    if(scale_by > 0){scale_by = scale_by * -1.0}
     if(to_array){
     var ret=new Array();
     }else{
@@ -63,9 +65,8 @@ pnode.appendChild(node)     ;
 
 };
 var ter = function(i){
-var pnode = document.getElementById('tlg');
-pnode.setAttri
-       var ary=pnode.getAttribute('viewBox').split(" ");
+var pnode = document.getElementById('jwline');
+var ary=pnode.getAttribute('points').split(" ");
 ary[3] = parseInt(ary[3]) + 50;
 
 pnode.setAttribute('viewBox', ary.join(' '));
