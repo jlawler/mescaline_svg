@@ -11,8 +11,8 @@ var pair=null;
     for(i=0; i< din.length; i++){
 pair=din[i];
 //alert(pair);
-      if(ret){ret = ret + ','}else{ret=''}
-      ret = ret + ((50 * pair[0]) + ' ' + ((500 - (pair[1]*50))));
+      if(ret){ret = ret + ' '}else{ret=''}
+      ret = ret + ((50 * pair[0]) + ',' + ((500 - (pair[1]*50))));
     }
     return ret;
   };
