@@ -24,7 +24,7 @@ node.setAttribute('style','stroke: black;fill: red; fill-opacity: 0.3; stroke-wi
 alert(coerce_data(data));
 node.setAttribute('points',coerce_data(data));
 node.setAttribute('x',0);
-node.setAttribute('y',0);
+node.setAttribute('y',200);
 pnode.appendChild(node)     ;
     }
   };
