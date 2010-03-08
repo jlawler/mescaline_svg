@@ -1,6 +1,6 @@
 mescaline=function(){
   var mescaline_struct={
-    graph_group: new Array({})
+    graph_group: new Array('blas')
   };
   return {
     graph_group: function(){return mescaline_struct['graph_group'][0]}
