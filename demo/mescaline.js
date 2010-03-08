@@ -64,7 +64,7 @@ pnode.appendChild(node)     ;
     ter: function(i){
 var u = (20.0-i)/20.0;
 var pnode = document.getElementById('jwline');
-pnode.setAttribute('points',coerce_data(data,false,(1 - (u/10))));
+pnode.setAttribute('points',coerce_data(data,false,(1 - (u))));
 if(i<=4){alert(1-(u/10)); return}
 setTimeout('tg.ter('+ (i-1) + ');',100);
 }
