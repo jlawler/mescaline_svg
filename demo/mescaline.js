@@ -4,7 +4,6 @@ var graph = function(){
 
 }; 
 mescaline=function(rn){
-  var svgxmlns="http://www.w3.org/2000/svg";
 
   function coerce_data(din){
     var ret = false;
