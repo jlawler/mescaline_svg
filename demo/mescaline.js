@@ -66,6 +66,6 @@ pnode.appendChild(node)     ;
 };
 var ter = function(i){
 var pnode = document.getElementById('jwline');
-node.setAttribute('points',coerce_data(data,false,(1 + (i/10))));
+pnode.setAttribute('points',coerce_data(data,false,(1 + (i/10))));
 setTimeout('ter('+ (i-1) + ');',1000);
 };
