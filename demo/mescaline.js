@@ -37,7 +37,7 @@ var labels = coerce_data(data,true);
 for(j=0;j<labels.length;j++){
 var pnode = document.getElementById('tlg');
 var node=document.createElementNS('http://www.w3.org/2000/svg','circle');
-node.setAttribute('style','stroke: black;  stroke-width: 5.2;');
+node.setAttribute('style','stroke: green; opacity: 0.2;   stroke-width: 5.2;');
 if(j==0){alert(labels[j][0]+ ', ' + labels[j][1])};
 node.setAttribute('cx',labels[j][0]);
 node.setAttribute('cy',labels[j][1]);
@@ -46,7 +46,7 @@ pnode.appendChild(node);
 }
 var pnode = document.getElementById('tlg');
 var node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
-node.setAttribute('style','stroke: black;  stroke-width: 5.2;');
+node.setAttribute('style','stroke: green; opacity: 0.2;  stroke-width: 5.2;');
 alert(coerce_data(data));
 node.setAttribute('points',coerce_data(data));
 pnode.appendChild(node)     ;
