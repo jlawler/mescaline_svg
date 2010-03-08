@@ -13,4 +13,3 @@ mescaline=function(rn){
   };
 
 };
-alert(typeof(mescaline.graph_group()));
