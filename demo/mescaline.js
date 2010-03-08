@@ -1,5 +1,10 @@
 
 var graph = function(){
+  node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
+  node.setAttribute('style','stroke: black;fill: red; fill-opacity: 0.3; stroke-width: 0.2;');
+  node.setAttribute('points',data1);
+  node.setAttribute('x',0);
+  node.setAttribute('y',0);
 
 
 }; 
