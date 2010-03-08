@@ -12,7 +12,7 @@ var pair=null;
 pair=din[i];
 //alert(pair);
       if(ret){ret = ret + ' '}else{ret=''}
-      ret = ret + ((50 * pair[0]) + ',' + ((1000 - (pair[1]*50))));
+      ret = ret + ((50 * pair[0]) + ',' + (((pair[1]*50) - 1000)));
     }
     return ret;
   };
