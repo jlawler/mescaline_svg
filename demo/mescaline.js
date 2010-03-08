@@ -40,6 +40,7 @@ var node=document.createElementNS('http://www.w3.org/2000/svg','circle');
 node.setAttribute('style','stroke: black;  stroke-width: 5.2;');
 node.setAttribute('cx',labels[j][0]);
 node.setAttribute('cy',labels[j][1]);
+pnode.appendChild(node);
 }
 var pnode = document.getElementById('tlg');
 var node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
