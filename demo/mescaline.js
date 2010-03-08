@@ -18,7 +18,7 @@ pair=din[i];
   };
   var first_gg = {
     add_graph: function(data,opts){
-var pnode = document.getElementById('tle');
+var pnode = document.getElementById('tlg');
 var node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
 node.setAttribute('style','stroke: black;  stroke-width: 5.2;');
 alert(coerce_data(data));
