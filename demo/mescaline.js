@@ -21,7 +21,7 @@ node.setAttribute('points',coerce_data(data));
 node.setAttribute('x',0);
 node.setAttribute('y',0);
 pnode.appendChildNode(node)     ;
-    };
+    }
   };
   var mescaline_struct={
     graph_group: new Array({}),
