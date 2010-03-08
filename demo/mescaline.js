@@ -22,7 +22,11 @@ if(!to_array){
 }
       x = 60 * pair[0];
       y = (-1.0 * pair[1]*50)+ 600;
-      ret = ret + x + ',' + y;
+      if(!to_array){
+        ret = ret + x + ',' + y;
+      }else{
+        ret.append([x,y]);
+      }
     }
     return ret;
   };
