@@ -6,7 +6,11 @@ var graph = function(){
 mescaline=function(rn){
 
   function coerce_data(din, to_array){
-    var ret = false;
+    if(to_array){
+    var ret=new Array();
+    }else{
+    var ret = '';
+    }
 var pair=null;
     for(i=0; i< din.length; i++){
 pair=din[i];
