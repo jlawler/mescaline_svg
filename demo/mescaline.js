@@ -1,4 +1,51 @@
+var zid=false;
+var tlg= document.getElementById('tlg');
+var bggrid=function(){
+  var up;
+  var right;
+  return {
+    getUp: function(){return up},
+    setUp: function(u){up=u},
+    getRight: function(){return right},
+    setRight: function(r){right=r}
+  };
+}();
+function mm(evt){
+if(zid){
+var xdiff = parseInt(zid[0]) - parseInt(evt.clientX);
+var ydiff = parseInt(zid[1]) - parseInt(evt.clientY);
 
+var ary  = tlg.getAttribute('viewBox').split(' ');
+if(!bggrid.getUp()){
+var n=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  n.setAttribute('height','100%');
+  n.setAttribute('width','100%');
+  n.setAttribute('style','stroke: blue; fill: green; fill-opacity: 0.2;');
+  n.setAttribute('x',1200);
+  n.setAttribute('y',00);
+  tlg.appendChild(n);
+  bggrid.setUp(n);
+//  alert('new node!');
+}
+ary[0] = parseInt(ary[0]) + xdiff;
+ary[1] = parseInt(ary[1]) + ydiff;
+zid=[evt.clientX,evt.clientY];
+tlg.setAttribute('viewBox',ary.join(' '));
+evt.cancelBubble=true;
+evt.returnValue=false;
+return false;
+}
+}
+function mouseup(evt){
+//alert('mu');
+zid=false;
+return false;
+}
+function mousedown(evt){
+  zid=[evt.clientX,evt.clientY];
+  return false;
+//  alert(evt);
+}
 var graph = function(){
 
 
@@ -65,7 +112,7 @@ pnode.appendChild(node)     ;
 var u = (20.0-i)/20.0;
 var pnode = document.getElementById('jwline');
 pnode.setAttribute('points',coerce_data(data,false,(1 - (u))));
-if(i<=4){alert(1-(u)); return}
+if(i<=4){ return}
 setTimeout('tg.ter('+ (i-1) + ');',100);
 }
   };
