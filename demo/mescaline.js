@@ -61,3 +61,8 @@ pnode.appendChild(node)     ;
   };
 
 };
+var ter = function(i){
+var pnode = document.getElementById('tlg');
+pnode.setAttri
+       var ary=pnode.getAttribute('viewBox').split(" ");
+ 
