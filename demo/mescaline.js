@@ -46,7 +46,7 @@ pnode.appendChild(node);
 var pnode = document.getElementById('tlg');
 var node=document.createElementNS('http://www.w3.org/2000/svg','polyline');
 node.setAttribute('style','stroke: black;  stroke-width: 5.2;');
-alert(coerce_data(data));
+//alert(coerce_data(data));
 node.setAttribute('points',coerce_data(data));
 //pnode.appendChild(node)     ;
     }
