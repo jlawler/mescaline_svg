@@ -12,7 +12,7 @@ mescaline=function(rn){
   var first_gg = {
     add_graph: function(data,opts){
 
-    }
+    };
   };
   var mescaline_struct={
     graph_group: new Array({}),
