@@ -65,7 +65,7 @@ pnode.appendChild(node)     ;
 var u = 10-i;
 var pnode = document.getElementById('jwline');
 pnode.setAttribute('points',coerce_data(data,false,(1 - (u/10))));
-if(i<=0){return}
+if(i<=6){return}
 setTimeout('tg.ter('+ (i-1) + ');',500);
 }
   };
