@@ -15,13 +15,14 @@
 
 
     <script type="text/ecmascript" xlink:href="mescaline.js"/>
+    <script type="text/ecmascript" xlink:href="mescaline/mouse.js"/>
     <script type="text/ecmascript">
 
-var tg = mescaline();
+tg = new Mescaline();
 function refresh(){
   var the_object = {}; 
   var http_request = new XMLHttpRequest();
-  http_request.open( "GET", 'http://localhost/demo/test1.json', true );
+  http_request.open( "GET", 'http://localhost/mescaline_svg/demo/test1.json', true );
   http_request.onreadystatechange = function () {
       if ( http_request.readyState == 4){
         if(  http_request.status == 200 ) {
@@ -35,7 +36,7 @@ function refresh(){
 };
 http_request.send(null);
 }
-setInterval("refresh()",1000);
+setInterval("refresh()",2000);
 //      alert(mescaline().graph_group());
     </script> 
 </svg>

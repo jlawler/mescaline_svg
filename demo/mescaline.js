@@ -1,123 +1,138 @@
-  function coerce_data(din, to_array,scale_by){
-    if(!scale_by){scale_by = 1.0};
-    if(scale_by > 0){scale_by = scale_by * -1.0}
-    if(to_array){
-      var ret=new Array();
+function DataSet(data){
+  this.data = data;
+  this._min_x = 0;
+  this._min_y = 0;
+  this._max_x = 20;
+  this._max_y = 10;
+  this.force_zero = true;
+  for(var i=0; i < this.data.length; i++){
+    if(this.data[i][0] < this._min_x){this._min_x = this.data[i][0];}
+    if(this.data[i][1] < this._min_y){this._min_y = this.data[i][1];}
+    if(this.data[i][0] > this._max_x){this._max_x = this.data[i][0];}
+    if(this.data[i][1] > this._max_y){this._max_y = this.data[i][1];}
+  }
+//  alert([this._min_x,this._min_y,this._max_x,this._max_y]); 
+  this.virtual_width = 1200;
+  this.virtual_height = 600;
+  this.virtual_x0 = 0;
+  this.virtual_y0 = 0;
+  this.scale = 1.0;
+};
+DataSet.prototype.min_x = function(){return this._min_x}
+DataSet.prototype.max_x = function(){return this._max_x}
+DataSet.prototype.min_y = function(){if(this.force_zero){return 0}else{return this._min_y}}
+DataSet.prototype.max_y = function(){return this._max_y}
+
+DataSet.prototype.data_string = function(force_zero){
+  var ret;
+  var da = this.data_array(force_zero);
+  for(var j=0; j<da.length; j++){
+    if(ret){ret = ret + ' '}else{ret=''};
+    ret = ret + ( da[j][0]+ ','+ da[j][1]);
+  }
+  return ret;
+}
+DataSet.prototype.data_array = function(force_zero){
+  force_zero = (this.force_zero || force_zero);
+  var ret=new Array();
+  var pair=null;
+  var x,y,i;
+  var x_scale,x_offset;
+  var y_scale,y_offset;
+  y_scale = (0.9 * this.virtual_height) / (this.max_y() - this.min_y());
+  var m = 0;
+  if((!force_zero) && this.min_y() < 0){m = (this.min_y() / (this.max_y() - this.min_y()))}
+  y_offset = this.virtual_height + (m * this.virtual_height) ; 
+  x_scale = this.virtual_width / (this._max_x - this._min_x);
+  x_offset = 0; 
+  if(y_scale > 0){y_scale = y_scale * -1.0}
+  for(i=0; i < this.data.length; i++){
+    pair=this.data[i];
+    x = (x_scale * pair[0]) + x_offset;
+    y = (y_scale * pair[1])+ y_offset;
+    ret.push([x,y]);
+  }
+  //alert(ret);
+  return ret;
+};
+  
+
+
+function coerce_data(din, to_array,scale_by){
+  if(!scale_by){scale_by = 1.0};
+  if(scale_by > 0){scale_by = scale_by * -1.0}
+  if(to_array){
+    var ret=new Array();
+  }else{
+    var ret = '';
+  }
+  var pair=null;
+  var x,y;
+  for(i=0; i < din.length; i++){
+    pair=din[i];
+    //alert(pair);
+    if(!to_array){
+      if(ret){ret = ret + ' '}else{ret=''}
+    }
+    x = 60 * pair[0];
+    y = (scale_by * pair[1]*50)+ 600;
+    if(!to_array){
+      ret = ret + x + ',' + y;
     }else{
-      var ret = '';
+      ret.push([x,y]);
     }
-    var pair=null;
-    var x,y;
-    for(i=0; i < din.length; i++){
-      pair=din[i];
-      //alert(pair);
-      if(!to_array){
-        if(ret){ret = ret + ' '}else{ret=''}
-      }
-      x = 60 * pair[0];
-      y = (scale_by * pair[1]*50)+ 600;
-      if(!to_array){
-        ret = ret + x + ',' + y;
-      }else{
-        ret.push([x,y]);
-      }
-    }
-    return ret;
-  };
-var zid=false;
-var tlg= document.getElementById('tlg');
-var bggrid=function(){
-  var up;
-  var right;
-  return {
-    getUp: function(){return up},
-    setUp: function(u){up=u},
-    getRight: function(){return right},
-    setRight: function(r){right=r}
-  };
-}();
-function mm(evt){
-  if(zid){
-    var xdiff = parseInt(zid[0]) - parseInt(evt.clientX);
-    var ydiff = parseInt(zid[1]) - parseInt(evt.clientY);
-    
-    var ary  = tlg.getAttribute('viewBox').split(' ');
-    if(!bggrid.getUp()){
-      var n=document.createElementNS('http://www.w3.org/2000/svg','rect');
-      n.setAttribute('height','100%');
-      n.setAttribute('width','100%');
-      n.setAttribute('style','stroke: blue; fill: green; fill-opacity: 0.2;');
-      n.setAttribute('x',1200);
-      n.setAttribute('y',00);
-      tlg.appendChild(n);
-      bggrid.setUp(n);
-    //  alert('new node!');
-    }
-    ary[0] = parseInt(ary[0]) + xdiff;
-    //ary[1] = parseInt(ary[1]) + ydiff;
-    zid=[evt.clientX,evt.clientY];
-    tlg.setAttribute('viewBox',ary.join(' '));
-    evt.cancelBubble=true;
-    evt.returnValue=false;
-    return false;
   }
-}
-function mouseup(evt){
-  zid=false;
-  return false;
-}
-function mousedown(evt){
-  zid=[evt.clientX,evt.clientY];
-  return false;
-}
-var graphC = function(){
-  var labels;
-  var gline;
-
-  var pnode = document.getElementById('tlg');
-  var data;
-  var update_data = function(datai){
-      data = datai;
-
-      if(!pnode){pnode = document.getElementById('tlg');}
-      //alert(coerce_data(data));
-      if(!(gline)){
-        gline = document.createElementNS('http://www.w3.org/2000/svg','polyline');
-        gline.setAttribute('id','jwline');
-        gline.setAttribute('style','stroke: green; opacity: 0.2; fill:none; stroke-width: 5px;');
-        gline.setAttribute('points',coerce_data(data));
-        pnode.appendChild(gline)     ;
-      }else{
-        gline.setAttribute('points',coerce_data(data));
-      }
-  } 
-  var update_labels = function(){
-     var j;
-     var labels = coerce_data(data,true);
-     for(j=0;j<labels.length;j++){
-        var node=document.createElementNS('http://www.w3.org/2000/svg','circle');
-        node.setAttribute('style','stroke: green; opacity: 0.2;   stroke-width: 5.2;');
-        //if(j==0){alert(labels[j][0]+ ', ' + labels[j][1])};
-        node.setAttribute('cx',labels[j][0]);
-        node.setAttribute('cy',labels[j][1]);
-        node.setAttribute('r',5);
-        pnode.appendChild(node);
-     }
-  }
-  return {
-    'update_data': update_data,
-    'update_labels': update_labels
-  }
-
+  return ret;
+};
+function Graph(){
+  var blah='asdf';
+  this.labels=null;
+  this.gline=null;
+  this.pnode = document.getElementById('tlg');
+  this.data=null;
+  this.label_nodes=[];
 }; 
-mescaline=function(rn){
+Graph.prototype.update_data = function(datai){
+  this.data = new DataSet(datai);
 
+  if(!this.pnode){this.pnode = document.getElementById('tlg');}
+  if(!(this.gline)){
+    this.gline = document.createElementNS('http://www.w3.org/2000/svg','polyline');
+    this.gline.setAttribute('id','jwline');
+    this.gline.setAttribute('style','stroke: green; opacity: 0.2; fill:none; stroke-width: 5px;');
+    this.gline.setAttribute('points',this.data.data_string());
+    this.pnode.appendChild(this.gline)     ;
+  }else{
+    this.gline.setAttribute('points',this.data.data_string());
+  }
+} 
+Graph.prototype.update_labels = function(){
+  var labelds = this.data.data_array();
+  var j;
+  for(j=0;j<this.label_nodes.length;j++){
+    this.pnode.removeChild(this.label_nodes[j]);
+  }
+  for(j=0;j<labelds.length;j++){
+    var node=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    node.setAttribute('style','stroke: green; opacity: 0.2;   stroke-width: 5.2;');
+    //if(j==0){alert(labels[j][0]+ ', ' + labels[j][1])};
+    node.setAttribute('cx',labelds[j][0]);
+    node.setAttribute('cy',labelds[j][1]);
+    node.setAttribute('r',5);
+    this.pnode.appendChild(node);
+    this.label_nodes[j]=node;
+  }
+}
+
+function Mescaline(rn){
   var first_gg = function(){
     var gg_graphs=new Array(); 
     return {add_graph: function(name,data,opts){
-      if(!(gg_graphs[name])){alert('creating new graph');
-gg_graphs[name]=graphC();}
+      if(!(gg_graphs[name])){
+        gg_graphs[name]=new Graph();
+      }
       gg_graphs[name].update_data(data);
+      gg_graphs[name].update_labels();
      }
     }
   }();
@@ -125,14 +140,6 @@ gg_graphs[name]=graphC();}
     graph_group: new Array(first_gg),
     root_node: rn
   };
-  return {
-    graph_group: function(){return mescaline_struct['graph_group'][0]},
-    ter: function(i){
-      var u = (20.0-i)/20.0;
-      var pnode = document.getElementById('jwline');
-      pnode.setAttribute('points',coerce_data(data,false,(1 - (u))));
-      if(i<=4){ return}
-      setTimeout('tg.ter('+ (i-1) + ');',100);
-    }
-  };
+  this.ms = function(){return mescaline_struct}
 };
+Mescaline.prototype.graph_group =  function(){return this.ms()['graph_group'][0]}
