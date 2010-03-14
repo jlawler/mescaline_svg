@@ -11,7 +11,6 @@ function DataSet(data){
     if(this.data[i][0] > this._max_x){this._max_x = this.data[i][0];}
     if(this.data[i][1] > this._max_y){this._max_y = this.data[i][1];}
   }
-//  alert([this._min_x,this._min_y,this._max_x,this._max_y]); 
   this.virtual_width = 1080;
   this.virtual_height = 540;
   this.virtual_x0 = 0;
@@ -69,7 +68,6 @@ function coerce_data(din, to_array,scale_by){
   var x,y;
   for(i=0; i < din.length; i++){
     pair=din[i];
-    //alert(pair);
     if(!to_array){
       if(ret){ret = ret + ' '}else{ret=''}
     }
@@ -121,7 +119,6 @@ Graph.prototype.update_labels = function(){
     var asdfasdf = function(rx,ry){
     var node=document.createElementNS('http://www.w3.org/2000/svg','circle');
     node.setAttribute('style','stroke: green; opacity: 0.2;   stroke-width: 5.2;');
-    //if(j==0){alert(labels[j][0]+ ', ' + labels[j][1])};
     node.setAttribute('cx',labelds[j][0]);
     node.setAttribute('cy',labelds[j][1]);
     node.setAttribute('r',5);
@@ -180,18 +177,11 @@ Mescaline.prototype.drawDataLabel =  function(name,x){
       label.setAttribute('fill','white');
       document.getElementById('tlg').appendChild(g);
   }
-  //alert(name); 
-  //alert(this.ms()['graph_group'][0]); 
   var ary = this.ms()['graph_group'][0].get_data(name);
-//  alert(ary);
-//  alert(x);
   for(var point=0; point < ary.length; point++){
-//    alert(ary[point]);
     if(ary[point][0]==x){
-//  alert(label);
       label.setAttribute('x',x);
       label.setAttribute('y',ary[point][1]-100);
-  //    alert('fount it!');
     }
   }
 }
@@ -208,7 +198,5 @@ Mescaline.prototype.draw_bg =  function(){
     l.setAttribute('y2',1000);
     l.setAttribute('points','' + os + ',0 ' + os + ', -1000' );
     pnode.appendChild(l);
-///  alert('draw bg' + '' + os + ',0 ' + os + ', -1000');
-    
   }
 }
