@@ -4,7 +4,7 @@
     <rect x='0' y='0' width='100%' height = '100%' style="stroke: blue; fill: green; fill-opacity: 0.2;" />
 <!--    <polyline style="stroke:black; stroke-width: 2px; fill:none" points="60,15,1140,15,1140,435,60,435,60,15" />-->
 
-<svg id='tlg' viewBox="0 0 1080 540" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  width='90%' height = '90%'  style="overflow: hidden;" x = '5%' y = '5.0%' version="1.1" preserveAspectRatio='none' onmousedown='mousedown(evt)' onmouseup='mouseup(evt)' onmousemove='mm(evt)'>
+<svg id='tlg' viewBox="0 0 1080 540" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  width='90%' height = '90%'  style="overflow: hidden;" x = '5%' y = '5.0%' version="1.1" preserveAspectRatio='none'>
     <rect  x='0' y='0' width='100%' height = '100%' style="stroke: blue; fill: green; fill-opacity: 0.2;" />
  <circle cx="000" cy="000" r="100" fill="red" stroke="blue" stroke-width="10"  />
  <circle cx="100%" cy="000" r="100" fill="red" stroke="blue" stroke-width="10"  />
@@ -19,11 +19,23 @@
   </text>
 </svg>
 -->
-    <script type="text/ecmascript" xlink:href="mescaline.js"/>
     <script type="text/ecmascript" xlink:href="mescaline/mouse.js"/>
+    <script type="text/ecmascript" xlink:href="mescaline/data_set.js"/>
+    <script type="text/ecmascript" xlink:href="mescaline/graph.js"/>
+    <script type="text/ecmascript" xlink:href="mescaline.js"/>
     <script type="text/ecmascript">
 
 tg = new Mescaline();
+Mescaline.config.top_level_name = 'tg';
+Mescaline.config.gsvg_id = 'tlg';
+Mescaline.config.gsvg_node = document.getElementById(Mescaline.config.gsvg_id);
+Mescaline.config.key_svg_id = 'gkey';
+Mescaline.config.key_svg_node = document.getElementById(Mescaline.config.key_svg_id);
+//Mescaline.config.mouseover = true;
+tg.mouse = new MMouse('tlg');
+DataSet.virtual_width = 1080;
+DataSet.virtual_height = 540;
+
 
 tg.draw_bg();
 function bootstrap(){

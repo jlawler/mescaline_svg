@@ -1,5 +1,23 @@
-var zid=false;
-var tlg= document.getElementById('tlg');
+function MMouse(node){
+  this.zid = false;
+  var that = this;
+  if(node){
+    if(typeof(node)=='string'){
+      node = document.getElementById(node);
+    }
+    this.attached_node = node; 
+    var down = function(evt){that.down(evt)};
+    var up = function(evt){that.up(evt)};
+    var move = function(evt){that.on_move(evt)};
+    this.attached_node.addEventListener('mousedown',down,false);
+    this.attached_node.addEventListener('mouseup',up,false);
+    this.attached_node.addEventListener('mousemove',move,false);
+  }
+};
+MMouse.prototype.top_level_graph = function(){
+  return (this.tlg || Mescaline.config.gsvg());
+}
+  
 var bggrid=function(){
   var up;
   var right;
@@ -10,12 +28,12 @@ var bggrid=function(){
     setRight: function(r){right=r}
   };
 }();
-function mm(evt){
-  if(zid){
-    var xdiff = parseInt(zid[0]) - parseInt(evt.clientX);
-    var ydiff = parseInt(zid[1]) - parseInt(evt.clientY);
+MMouse.prototype.on_move = function (evt){
+  if(this.zid){
+    var xdiff = parseInt(this.zid[0]) - parseInt(evt.clientX);
+    var ydiff = parseInt(this.zid[1]) - parseInt(evt.clientY);
     
-    var ary  = tlg.getAttribute('viewBox').split(' ');
+    var ary  = this.top_level_graph().getAttribute('viewBox').split(' ');
     if(!bggrid.getUp()){
       var n=document.createElementNS('http://www.w3.org/2000/svg','rect');
       n.setAttribute('height','100%');
@@ -23,28 +41,27 @@ function mm(evt){
       n.setAttribute('style','stroke: blue; fill: green; fill-opacity: 0.2;');
       n.setAttribute('x',1080);
       n.setAttribute('y',00);
-      tlg.appendChild(n);
+      this.top_level_graph().appendChild(n);
       bggrid.setUp(n);
     //  alert('new node!');
     }
-    ary[0] = parseInt(ary[0]) + xdiff;
+    ary[0] = parseInt(ary[0]) + (1.5*xdiff);
     //ary[1] = parseInt(ary[1]) + ydiff;
-    zid=[evt.clientX,evt.clientY];
-    tlg.setAttribute('viewBox',ary.join(' '));
+    this.zid=[evt.clientX,evt.clientY];
+    this.top_level_graph().setAttribute('viewBox',ary.join(' '));
 //    evt.cancelBubble=true;
 //    evt.returnValue=false;
 //    return false;
   }
 }
-function mouseup(evt){
-  zid=false;
+MMouse.prototype.up = function(evt){
+  this.zid=false;
   return false;
 }
-function mousedown(evt){
-  zid=[evt.clientX,evt.clientY];
-    evt.cancelBubble=true;
-    evt.returnValue=false;
-    return false;
-
+MMouse.prototype.down = function(evt){
+  this.zid=[evt.clientX,evt.clientY];
+  evt.cancelBubble=true;
+  evt.returnValue=false;
+  return false;
 }
 
