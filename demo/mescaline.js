@@ -11,8 +11,9 @@ function DataSet(data){
     if(this.data[i][0] > this._max_x){this._max_x = this.data[i][0];}
     if(this.data[i][1] > this._max_y){this._max_y = this.data[i][1];}
   }
-  this.virtual_width = 1080;
-  this.virtual_height = 540;
+  this.virtual_width =  this.constructor.virtual_width;
+  this.virtual_height = this.constructor.virtual_height;
+  alert([this.virtual_width,this.virtual_height]);
   this.virtual_x0 = 0;
   this.virtual_y0 = 0;
   this.scale = 1.0;
@@ -21,6 +22,8 @@ DataSet.prototype.min_x = function(){return this._min_x}
 DataSet.prototype.max_x = function(){return this._max_x}
 DataSet.prototype.min_y = function(){if(this.force_zero){return 0}else{return this._min_y}}
 DataSet.prototype.max_y = function(){return this._max_y}
+DataSet.prototype.virtual_width = 1080;
+DataSet.prototype.virtual_height = 540;
 
 DataSet.prototype.data_string = function(force_zero){
   var ret;
