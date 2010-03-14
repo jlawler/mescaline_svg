@@ -27,49 +27,19 @@
 
 tg = new Mescaline();
 Mescaline.config.top_level_name = 'tg';
-Mescaline.config.gsvg_id = 'tlg';
-Mescaline.config.gsvg_node = document.getElementById(Mescaline.config.gsvg_id);
-Mescaline.config.key_svg_id = 'gkey';
-Mescaline.config.key_svg_node = document.getElementById(Mescaline.config.key_svg_id);
-//Mescaline.config.mouseover = true;
-tg.mouse = new MMouse('tlg');
-DataSet.virtual_width = 1080;
-DataSet.virtual_height = 540;
-
-
+Mescaline.config.set_gsvg_id('tlg');
+Mescaline.config.set_key_svg_id('gkey');
+Mescaline.config.mouseover = true;
+//Mescaline.config.mouseover = false;
+tg.enableMouse();
+Mescaline.config.virtual_width = 1080;
+Mescaline.config.virtual_height = 540;
+Mescaline.config.x_range = 20;
+//Mescaline.config.force_recalc_sizes = true;
+//Mescaline.config.force_recalc_sizes = true;
+Mescaline.config.graphs = new Array(['test1', 'http://localhost/mescaline_svg/demo/test1.json'],  ['test2', 'http://localhost/mescaline_svg/demo/test2.json']); 
+//Mescaline.config.graphs = new Array(['test1', 'test1.json']); 
 tg.draw_bg();
-function bootstrap(){
-  var the_object = {}; 
-  var http_request = new XMLHttpRequest();
-  http_request.open( "GET", 'http://localhost/mescaline_svg/demo/test2.json', true );
-  http_request.onreadystatechange = function () {
-    if ( http_request.readyState == 4){
-      if(  http_request.status == 200 ) {
-        the_object = eval( http_request.responseText );
-        var data= the_object;
-        tg.graph_group().add_graph('test1',data);
-      }
-    }
-  };
-  http_request.send(null);
-  setInterval("refresh()",2000);
-}
-
-function refresh(){
-  var the_object = {}; 
-  var http_request = new XMLHttpRequest();
-  http_request.open( "GET", 'http://localhost/mescaline_svg/demo/test2.json', true );
-  http_request.onreadystatechange = function () {
-    if ( http_request.readyState == 4){
-      if(  http_request.status == 200 ) {
-        the_object = eval( http_request.responseText );
-        var data= the_object;
-        tg.graph_group().add_graph('test1',data);
-      }
-    }
-  };
-  http_request.send(null);
-}
-bootstrap();
+tg.start();
     </script> 
 </svg>

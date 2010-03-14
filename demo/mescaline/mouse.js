@@ -1,6 +1,9 @@
 function MMouse(node){
   this.zid = false;
   var that = this;
+  if(!node){
+    node = Mescaline.config.gsvg_node;
+  }
   if(node){
     if(typeof(node)=='string'){
       node = document.getElementById(node);

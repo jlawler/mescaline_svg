@@ -1,4 +1,141 @@
+function GraphGroup(){
+  this.graph_names = new Array();
+  this.gg_graphs=new Array(); 
+  this.global_attrs = new Array();
+  this.reset_globals();
+  this.callback_q = new Array();
+}
+
+var f = true;
+
+GraphGroup.prototype.reset_globals = function(){
+  this.global_attrs['min_x'] = 0;
+  this.global_attrs['min_y'] = 0;
+  this.global_attrs['max_x'] = 0;
+  this.global_attrs['max_y'] = 0;
+}
+GraphGroup.prototype.globals = function(){return this.global_attrs}
+GraphGroup.prototype.try_to_refresh_graphs = function(){
+  for(var i=0;i<this.graph_names.length;i++){
+    this.gg_graphs[this.graph_names[i]].update_data(); 
+    this.gg_graphs[this.graph_names[i]].update_labels(); 
+  }
+}
+GraphGroup.prototype.queue_callback = function(name,data,source){
+  this.callback_q.push(new Array(name,data,source));
+}
+
+GraphGroup.prototype.run_callbacks = function(debug){
+//  alert('running callbaks!');
+  var cb;
+  var debug_ary = new Array();
+  while( cb = this.callback_q.shift()){
+    if(debug){debug_ary.push(new Array(cb[0],cb[1]))};
+    this.run_callback(cb[0],cb[1],cb[2]);
+    //if(debug){alert(debug_ary)};
+  }
+}
+GraphGroup.prototype.run_callback = function(name,data,source){
+//  alert(typeof this.global_attrs[name]);
+  if(this.global_attrs[name] || typeof(this.global_attrs[name])=='number' || name == 'x_range'){
+    if(name.match(/^min_/)){
+      if(data < this.global_attrs[name]){
+        this.global_attrs[name] = data;
+        for(var i=0;i<this.graph_names.length;i++){
+          var nn = '_' + name;
+          //alert('set ' + nn + ' to ' + data);
+          this.gg_graphs[this.graph_names[i]].data[nn] = this.global_attrs[name]; 
+        }
+       
+        this.try_to_refresh_graphs();
+      } 
+    }
+    if(name.match(/^max_/)){
+          var nn = '_' + name;
+          //alert('set ' + nn + ' to ' + data);
+      if(data > this.global_attrs[name]){
+        if(name=='max_x' && this.global_attrs['x_range']){
+          this.scroll((data - this.global_attrs['max_x'])/this.global_attrs['x_range']);
+          this.queue_callback('min_x',this.global_attrs['max_x'] - this.global_attrs['x_range']);
+//          alert('bump? (' + data + ')');
+        }
+        this.global_attrs[name] = data;
+        for(var i=0;i<this.graph_names.length;i++){
+          this.gg_graphs[this.graph_names[i]].data[nn] = this.global_attrs[name]; 
+        }
+        this.try_to_refresh_graphs();
+      } 
+    }
+    if(name.match(/_range/)){
+      //alert('rang callback');
+      this.global_attrs[name] = data;
+      for(var i=0;i<this.graph_names.length;i++){
+        var nn = '_' + name;
+        this.gg_graphs[this.graph_names[i]].data[nn] = this.global_attrs[name]; 
+        }
+        this.try_to_refresh_graphs();
+
+    }
+  }
+  if(source){source.clear_callback(name)};
+}
+
+GraphGroup.prototype.scroll = function(pcnt){
+  var ary  = Mescaline.config.gsvg_node.getAttribute('viewBox').split(' ');
+  ary[0]=(ary[2] * pcnt);
+  Mescaline.config.gsvg_node.setAttribute('viewBox',ary.join(' '));
+}
+GraphGroup.prototype.recalc_graphs = function(){
+  var force = true;
+  this.reset_globals();
+  for(var i=0;i<this.graph_names.length;i++){
+    var gn = this.graph_names[i];
+    this.gg_graphs[gn].data.recalc_data(force);
+    this.gg_graphs[gn].callbacks();
+  }
+  this.run_callbacks();
+  this.try_to_refresh_graphs();
+}
+GraphGroup.prototype.add_graph = function(name,data,opts){
+  if(!(this.gg_graphs[name])){
+    this.graph_names.push(name);
+    this.gg_graphs[name]=new Graph(name,this);
+    this.gg_graphs[name].update_data(data);
+    for(var i in this.global_attrs){
+      this.gg_graphs[name].data['_' + i] = this.global_attrs[i];
+    }
+  }else{
+    this.gg_graphs[name].update_data(data);
+  }
+  this.gg_graphs[name].callbacks();
+  this.run_callbacks();
+  this.try_to_refresh_graphs();
+  
+  this.gg_graphs[name].update_labels();
+  if(Mescaline.config.force_recalc_sizes){this.recalc_graphs();}
+}
+
+GraphGroup.prototype.get_data = function(name){
+     return this.gg_graphs[name].data.data_array()
+}
+
 function MConfig(){
+}
+MConfig.prototype.get_graphs = function(){
+  var ret = new Array();
+  for(var i = 0; i < Mescaline.config.graphs.length; i++){
+    ret.push(new Array(Mescaline.config.graphs[i][0],Mescaline.config.graphs[i][1]));
+  }
+  return ret;
+}
+MConfig.prototype.set_key_svg_id = function(nid){
+    this.key_svg_id = nid;
+    this.key_svg_node =  document.getElementById(this.key_svg_id);
+}
+
+MConfig.prototype.set_gsvg_id = function(nid){
+    this.gsvg_id = nid;
+    this.gsvg_node =  document.getElementById(this.gsvg_id);
 }
 MConfig.prototype.key = function(){
   return(this.key_svg_node || document.getElementById(this.key_svg_id));
@@ -9,7 +146,9 @@ MConfig.prototype.gsvg = function(){
 
 function Mescaline(rn){
   var mouseover;
-  var first_gg = function(){
+  this.refresh_data={};
+  var first_gg = new GraphGroup();
+  var first_gg_orig = function(){
     var gg_graphs=new Array(); 
     return {add_graph: function(name,data,opts){
       if(!(gg_graphs[name])){
@@ -30,7 +169,73 @@ function Mescaline(rn){
   this.getMouseover = function(){return mouseover}
   
 };
+GraphGroup.prototype.finish_startup = function(){
+  this.run_callbacks();
+  //alert([this.global_attrs['max_x'], this.global_attrs['min_x']]);
+  this.queue_callback('x_range',(this.global_attrs['max_x'] - this.global_attrs['min_x']))
+  this.run_callbacks(true);
+}
 Mescaline.config=new MConfig();
+var counter=0;
+Mescaline.prototype.refresh = function(gds,first){
+  var gd = gds.shift();
+  //alert('refresh '   + gd);
+  var name = gd[0];
+  var url = gd[1] + '?asdf=' + counter++;
+  var http_request = new XMLHttpRequest();
+  var current_mescaline = this;
+  http_request.open( "GET", url, true );
+  http_request.onreadystatechange = function () {
+    if ( http_request.readyState == 4){
+      if( http_request.status == 200 ) {
+        var data = eval( http_request.responseText );
+        current_mescaline.graph_group().add_graph(name,data);
+      }
+      if(gds.length == 0){
+        tg.graph_group().run_callbacks();
+        tg.graph_group().try_to_refresh_graphs();
+      }else{
+        current_mescaline.refresh(gds);
+      }
+    }
+  };
+  http_request.send(null)
+}
+
+Mescaline.prototype.bootstrap = function(gds){
+  var gd = gds.shift();
+//  alert(gd);
+  var name = gd[0];
+  var url = gd[1] + '?asdf=' + counter++;
+  this.refresh_data[name]=url;
+  var http_request = new XMLHttpRequest();
+  http_request.open( "GET", url, true );
+  var current_mescaline = this;
+  http_request.onreadystatechange = function () {
+    if ( http_request.readyState == 4){
+      if(  http_request.status == 200 ) {
+        var data = eval( http_request.responseText );
+        current_mescaline.graph_group().add_graph(name,data);
+      }
+      if(gds.length == 0){
+        tg.graph_group().finish_startup();
+        tg.graph_group().try_to_refresh_graphs();
+        setInterval(Mescaline.config.top_level_name + '.refresh(Mescaline.config.get_graphs(),true)',3000);
+      }else{
+        current_mescaline.bootstrap(gds);
+      }
+    }
+  };
+  http_request.send(null)
+}
+
+Mescaline.prototype.start = function(){
+  var gd = Mescaline.config.get_graphs();
+  this.bootstrap(gd);
+}
+Mescaline.prototype.enableMouse =  function(){
+  this.mouse = new MMouse();
+}
 Mescaline.prototype.drawDataLabel =  function(name,x){
   var label;
   if(this.getMouseover()){label=this.getMouseover()}else{
