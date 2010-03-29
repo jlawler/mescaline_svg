@@ -18,12 +18,13 @@
   </text>
 </svg>
 -->
-    <script type="text/ecmascript" xlink:href="debug_lights.js?1"/>
-    <script type="text/ecmascript" xlink:href="mescaline/mouse.js?1"/>
-    <script type="text/ecmascript" xlink:href="mescaline/data_set.js?1"/>
-    <script type="text/ecmascript" xlink:href="mescaline/graph.js?1"/>
-    <script type="text/ecmascript" xlink:href="mescaline/graph_group.js?1"/>
-    <script type="text/ecmascript" xlink:href="mescaline.js"/>
+    <script type="text/ecmascript" xlink:href="debug_lights.js?3"/>
+    <script type="text/ecmascript" xlink:href="mescaline/mouse.js?3"/>
+    <script type="text/ecmascript" xlink:href="mescaline/data_set.js?3"/>
+    <script type="text/ecmascript" xlink:href="mescaline/graph.js?3"/>
+    <script type="text/ecmascript" xlink:href="mescaline/graph_group.js?3"/>
+    <script type="text/ecmascript" xlink:href="mescaline/mconfig.js?3"/>
+    <script type="text/ecmascript" xlink:href="mescaline.js?3"/>
     <script type="text/ecmascript">
 
 tg = new Mescaline();

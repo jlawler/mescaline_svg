@@ -1,30 +1,5 @@
 
 
-function MConfig(){
-}
-MConfig.prototype.get_graphs = function(){
-  var ret = new Array();
-  for(var i = 0; i < Mescaline.config.graphs.length; i++){
-    ret.push(new Array(Mescaline.config.graphs[i][0],Mescaline.config.graphs[i][1]));
-  }
-  return ret;
-}
-MConfig.prototype.set_key_svg_id = function(nid){
-    this.key_svg_id = nid;
-    this.key_svg_node =  document.getElementById(this.key_svg_id);
-}
-
-MConfig.prototype.set_gsvg_id = function(nid){
-    this.gsvg_id = nid;
-    this.gsvg_node =  document.getElementById(this.gsvg_id);
-}
-MConfig.prototype.key = function(){
-  return(this.key_svg_node || document.getElementById(this.key_svg_id));
-}
-MConfig.prototype.gsvg = function(){
-  return(this.gsvg_node || document.getElementById(this.gsvg_id));
-}
-
 function Mescaline(rn){
   var mouseover;
   this.refresh_data={};
@@ -36,15 +11,16 @@ function Mescaline(rn){
   this.ms = function(){return mescaline_struct}
   this.setMouseover = function(x){mouseover=x}
   this.getMouseover = function(){return mouseover}
-  
+  this.counter=0;
+  Mescaline.instance = this;
 };
+
 Mescaline.config=new MConfig();
-var counter=0;
-Mescaline.prototype.refresh = function(gds,first){
+Mescaline.prototype.refresh = function(gds){
   var gd = gds.shift();
   //alert('refresh '   + gd);
   var name = gd[0];
-  var url = gd[1] + '?asdf=' + counter++;
+  var url = gd[1] + '?asdf=' + this.counter++;
   var http_request = new XMLHttpRequest();
   var current_mescaline = this;
   http_request.open( "GET", url, true );
@@ -66,10 +42,11 @@ Mescaline.prototype.refresh = function(gds,first){
 }
 
 Mescaline.prototype.bootstrap = function(gds){
+  var bs_callback = function(){Mescaline.instance.refresh(Mescaline.config.get_graphs())};
   var gd = gds.shift();
 //  alert(gd);
   var name = gd[0];
-  var url = gd[1] + '?asdf=' + counter++;
+  var url = gd[1] + '?asdf=' + this.counter++;
   this.refresh_data[name]=url;
   var http_request = new XMLHttpRequest();
   http_request.open( "GET", url, true );
@@ -83,7 +60,7 @@ Mescaline.prototype.bootstrap = function(gds){
       if(gds.length == 0){
         tg.graph_group().finish_startup();
         tg.graph_group().try_to_refresh_graphs();
-        setInterval(Mescaline.config.top_level_name + '.refresh(Mescaline.config.get_graphs(),true)',3000);
+        setInterval(bs_callback,3000);
       }else{
         current_mescaline.bootstrap(gds);
       }
