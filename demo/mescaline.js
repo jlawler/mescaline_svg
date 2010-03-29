@@ -7,7 +7,6 @@ function GraphGroup(){
   this.callback_q = new Array();
 }
 
-var f = true;
 
 GraphGroup.prototype.reset_globals = function(){
   this.global_attrs['min_x'] = 0;
@@ -101,6 +100,13 @@ GraphGroup.prototype.run_callback = function(name,data,source){
   if(source){source.clear_callback(name)};
 }
 
+GraphGroup.prototype.finish_startup = function(){
+  this.run_callbacks();
+  //alert([this.global_attrs['max_x'], this.global_attrs['min_x']]);
+  this.queue_callback('x_range',(this.global_attrs['max_x'] - this.global_attrs['min_x']))
+  this.run_callbacks(true);
+}
+
 GraphGroup.prototype.scroll = function(pcnt){
   var was  = Mescaline.config.gsvg_node.getAttribute('viewBox');
   var ary  = Mescaline.config.gsvg_node.getAttribute('viewBox').split(' ');
@@ -182,12 +188,6 @@ function Mescaline(rn){
   this.getMouseover = function(){return mouseover}
   
 };
-GraphGroup.prototype.finish_startup = function(){
-  this.run_callbacks();
-  //alert([this.global_attrs['max_x'], this.global_attrs['min_x']]);
-  this.queue_callback('x_range',(this.global_attrs['max_x'] - this.global_attrs['min_x']))
-  this.run_callbacks(true);
-}
 Mescaline.config=new MConfig();
 var counter=0;
 Mescaline.prototype.refresh = function(gds,first){

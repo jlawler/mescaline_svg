@@ -18,6 +18,7 @@
   </text>
 </svg>
 -->
+    <script type="text/ecmascript" xlink:href="debug_lights.js"/>
     <script type="text/ecmascript" xlink:href="mescaline/mouse.js"/>
     <script type="text/ecmascript" xlink:href="mescaline/data_set.js"/>
     <script type="text/ecmascript" xlink:href="mescaline/graph.js"/>
