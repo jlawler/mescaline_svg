@@ -31,6 +31,7 @@ var bggrid=function(){
     setRight: function(r){right=r}
   };
 }();
+
 MMouse.prototype.on_move = function (evt){
   if(this.zid){
     var xdiff = parseInt(this.zid[0]) - parseInt(evt.clientX);

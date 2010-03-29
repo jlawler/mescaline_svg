@@ -1,3 +1,56 @@
+
+function DebugLights(){
+  this.tl = Mescaline.config.gsvg_node;
+  this.cx = 200;
+  this.cy = 0;
+  this.light_ary = new Array();
+}
+
+DebugLights.prototype.add_light = function(name){
+    if(this.light_ary[name]){return(this.light_ary[name])}
+    var new_lite=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    new_lite.setAttribute('width','70px');
+    new_lite.setAttribute('opacity','0.5');
+    new_lite.setAttribute('height','50px');
+    new_lite.setAttribute('fill','white');
+    new_lite.setAttribute('y',this.cy); 
+    new_lite.setAttribute('x',this.cx); 
+    var new_label = document.createElementNS('http://www.w3.org/2000/svg','text');
+    new_label.setAttribute('x',this.cx + 10);
+    new_label.setAttribute('y',this.cy + 20);
+    new_label.setAttribute('font-family',"Verdana");
+    new_label.setAttribute('font-size',"20"); 
+    new_label.appendChild(document.createTextNode(name))
+    var text_label = document.createElementNS('http://www.w3.org/2000/svg','text');
+    text_label.setAttribute('x',this.cx + 10);
+    text_label.setAttribute('y',this.cy + 40);
+    text_label.setAttribute('font-family',"Verdana");
+    text_label.setAttribute('font-size',"20");
+    text_label.appendChild(document.createTextNode(name));
+    var new_obj = {
+      lite: new_lite,
+      label: new_label,
+      text: text_label
+    } 
+    this.cx = this.cx + 100;
+    this.light_ary[name] = new_obj;
+    this.tl.appendChild(this.light_ary[name].lite);
+    this.tl.appendChild(new_label);
+    this.tl.appendChild(text_label);
+    return(this.light_ary[name]);
+}
+DebugLights.prototype.set_label = function(name,thing){
+//  alert(thing);
+  for(i = this.add_light(name).text.childNodes.length-1; i >= 0; i--){
+    this.add_light(name).text.removeChild(this.add_light(name).text.childNodes[i]);
+  }
+  this.add_light(name).text.appendChild(document.createTextNode(thing));
+}
+
+DebugLights.prototype.set = function(name,thing){
+  this.add_light(name).lite.setAttribute('opacity',thing);
+}
+
 function GraphGroup(){
   this.graph_names = new Array();
   this.gg_graphs=new Array(); 
@@ -14,6 +67,27 @@ GraphGroup.prototype.reset_globals = function(){
   this.global_attrs['max_x'] = 0;
   this.global_attrs['max_y'] = 0;
 }
+
+GraphGroup.prototype.mouseover_line = function(target_graph,label_pnt){
+  if(!target_graph){
+    alert('wtf');
+  }
+  for(var i=0;i<this.graph_names.length;i++){
+    this.gg_graphs[this.graph_names[i]].mouseover_line(target_graph,label_pnt); 
+  }
+}
+GraphGroup.prototype.mouseover_label = function(target_graph,label_pnt){
+  for(var i=0;i<this.graph_names.length;i++){
+    this.gg_graphs[this.graph_names[i]].mouseover_label(target_graph,label_pnt); 
+  }
+}
+
+GraphGroup.prototype.mouseout_label = function(target_graph,label_pnt){
+  for(var i=0;i<this.graph_names.length;i++){
+    this.gg_graphs[this.graph_names[i]].mouseout_label(target_graph,label_pnt); 
+  }
+}
+
 GraphGroup.prototype.globals = function(){return this.global_attrs}
 GraphGroup.prototype.try_to_refresh_graphs = function(){
   for(var i=0;i<this.graph_names.length;i++){
@@ -51,8 +125,7 @@ GraphGroup.prototype.run_callback = function(name,data,source){
       } 
     }
     if(name.match(/^max_/)){
-          var nn = '_' + name;
-          //alert('set ' + nn + ' to ' + data);
+      var nn = '_' + name;
       if(data > this.global_attrs[name]){
         if(name=='max_x' && this.global_attrs['x_range']){
           this.scroll((data - this.global_attrs['max_x'])/this.global_attrs['x_range']);
@@ -81,9 +154,12 @@ GraphGroup.prototype.run_callback = function(name,data,source){
 }
 
 GraphGroup.prototype.scroll = function(pcnt){
+  var was  = Mescaline.config.gsvg_node.getAttribute('viewBox');
   var ary  = Mescaline.config.gsvg_node.getAttribute('viewBox').split(' ');
-  ary[0]=(ary[2] * pcnt);
+  ary[0]= parseInt(ary[0]) + (ary[2] * pcnt);
   Mescaline.config.gsvg_node.setAttribute('viewBox',ary.join(' '));
+  var now  = Mescaline.config.gsvg_node.getAttribute('viewBox');
+//  alert("WAS " + was + '!   NOW + ' + now);
 }
 GraphGroup.prototype.recalc_graphs = function(){
   var force = true;
@@ -97,6 +173,7 @@ GraphGroup.prototype.recalc_graphs = function(){
   this.try_to_refresh_graphs();
 }
 GraphGroup.prototype.add_graph = function(name,data,opts){
+//  alert(this.constructor);
   if(!(this.gg_graphs[name])){
     this.graph_names.push(name);
     this.gg_graphs[name]=new Graph(name,this);
@@ -116,7 +193,7 @@ GraphGroup.prototype.add_graph = function(name,data,opts){
 }
 
 GraphGroup.prototype.get_data = function(name){
-     return this.gg_graphs[name].data.data_array()
+   return this.gg_graphs[name].data.data_array()
 }
 
 function MConfig(){
@@ -148,18 +225,6 @@ function Mescaline(rn){
   var mouseover;
   this.refresh_data={};
   var first_gg = new GraphGroup();
-  var first_gg_orig = function(){
-    var gg_graphs=new Array(); 
-    return {add_graph: function(name,data,opts){
-      if(!(gg_graphs[name])){
-        gg_graphs[name]=new Graph();
-      }
-      gg_graphs[name].update_data(data);
-      gg_graphs[name].update_labels();
-     },
-     get_data: function(name){return gg_graphs[name].data.data_array()}
-    }
-  }();
   var mescaline_struct={
     graph_group: new Array(first_gg),
     root_node: rn
@@ -231,6 +296,7 @@ Mescaline.prototype.bootstrap = function(gds){
 
 Mescaline.prototype.start = function(){
   var gd = Mescaline.config.get_graphs();
+  if(!this.dl){this.dl = new DebugLights();}
   this.bootstrap(gd);
 }
 Mescaline.prototype.enableMouse =  function(){
