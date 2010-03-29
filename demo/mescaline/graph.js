@@ -73,7 +73,7 @@ Graph.prototype.update_data_line = function(){
       this_graph.moline.onmouseout = function(){this_graph.mouseout_line()}
       }(this);
     }
-    this.pnode.appendChild(this.moline)     ;
+    this.pnode.appendChild(this.moline);
   }else{
     this.moline.setAttribute('points',this.data.data_string());
   }
@@ -139,13 +139,14 @@ Graph.prototype.actually_update_labels = function(){
   var that_graph = this;
   var labelds = this.data.data_array();
   if(this.label_nodes){
-  for(var j=0;j<this.label_nodes.length;j++){
-    if(this.label_nodes[j]){
-      var label_parent = this.label_nodes[j][0].parentNode;
-      if(this.label_nodes[j][0]){label_parent.removeChild(this.label_nodes[j][0]);}
-      if(this.label_nodes[j][1]){label_parent.removeChild(this.label_nodes[j][1]);}
+    for(var j=0;j<this.label_nodes.length;j++){
+      if(this.label_nodes[j]){
+        var label_parent = this.label_nodes[j][0].parentNode;
+        if(this.label_nodes[j][0]){label_parent.removeChild(this.label_nodes[j][0]);}
+        if(this.label_nodes[j][1]){label_parent.removeChild(this.label_nodes[j][1]);}
+      }
     }
-  }}
+  }
   for(j=0;j<labelds.length;j++){var z = function(pnode,this_graph,label_pnt,index){
     var asdfasdf = function(rx,ry){
     var node=document.createElementNS('http://www.w3.org/2000/svg','circle');

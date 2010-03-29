@@ -25,17 +25,28 @@ function alertonce(s){
   }
 }
 DataSet.prototype.recalc_data = function(force){
+    tg.dl.set_label('force','false');
   if(force){
-  this._min_x = 0;
-  this._max_x = false;
-  this._min_y = 0;
-  this._max_y = false;
+    force = {
+      min_x: 0,
+      max_x: false,
+      min_y: 0 
+    }
+    this._min_x = force.min_x;
+    this._max_x = force.max_x;
+    this._min_y = force.min_y;
+    this._max_y = force.max_y;
+    tg.dl.set_label('force','true');
+    alert(force);
   }
   return this.update_data(this.data,true);
 }
 
-DataSet.prototype.update_data = function(datai){
+DataSet.prototype.update_data = function(datai,x_st,width){
    for(var i=0; i < datai.length; i++){
+    if(x_st && width && ((datai[i][0] < x_st) ||(datai[i][0] > (x_st+width)))){
+      next;
+    }
     if(!(this._min_x) || datai[i][0] < this._min_x){
       if(!this.callback_queue.min_x || datai[i][0] < this.callback_queue.min_x){ 
         this.callback_queue.min_x = datai[i][0];
@@ -48,7 +59,6 @@ DataSet.prototype.update_data = function(datai){
     }
     if(!(this._max_x) || datai[i][0] > this._max_x){
       if(!this.callback_queue['max_x'] || datai[i][0] > this.callback_queue['max_x']){
-//      alert('found maxx ' + this.data[i][0]);
       this.callback_queue['max_x']= datai[i][0];
       }
     }
