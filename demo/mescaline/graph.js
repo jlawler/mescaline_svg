@@ -156,7 +156,7 @@ Graph.prototype.actually_update_labels = function(){
     node.setAttribute('cy',label_pnt[1]);
     node.setAttribute('r',5);
     var mouseover_node = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    mouseover_node.setAttribute('style','stroke: red; fill: red; opacity: 0.0;   stroke-width: 25.2; pointer-events: all;');
+    mouseover_node.setAttribute('style','stroke: red; fill: red; opacity: 0.3;   stroke-width: 25.2; pointer-events: all;');
     mouseover_node.setAttribute('cx',label_pnt[0]);
     mouseover_node.setAttribute('cy',label_pnt[1]);
     mouseover_node.setAttribute('r',25);

@@ -26,7 +26,6 @@
     <script type="text/ecmascript" xlink:href="mescaline/mconfig.js?3"/>
     <script type="text/ecmascript" xlink:href="mescaline.js?3"/>
     <script type="text/ecmascript">
-
 tg = new Mescaline();
 Mescaline.config.top_level_name = 'tg';
 Mescaline.config.set_gsvg_id('tlg');

@@ -21,6 +21,10 @@ Mescaline.prototype.refresh = function(gds){
   //alert('refresh '   + gd);
   var name = gd[0];
   var url = gd[1] + '?asdf=' + this.counter++;
+  if(Mescaline.config.data_tag){
+    url = url + '&data_tag='+Mescaline.config.data_tag;
+  }
+
   var http_request = new XMLHttpRequest();
   var current_mescaline = this;
   http_request.open( "GET", url, true );
@@ -47,6 +51,9 @@ Mescaline.prototype.bootstrap = function(gds){
 //  alert(gd);
   var name = gd[0];
   var url = gd[1] + '?asdf=' + this.counter++;
+  if(Mescaline.config.data_tag){
+    url = url + '&data_tag='+Mescaline.config.data_tag;
+  }
   this.refresh_data[name]=url;
   var http_request = new XMLHttpRequest();
   http_request.open( "GET", url, true );

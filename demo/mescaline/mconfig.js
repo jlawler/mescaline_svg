@@ -1,4 +1,6 @@
 function MConfig(){
+  this.domain = location.href.replace(/^http:\/\/([^\/]+)\/.*$/,'$1');
+  this.base_url = location.href.replace(/^(.*)\/[^\/]+$/,'$1');
 }
 MConfig.prototype.get_graphs = function(){
   var ret = new Array();
